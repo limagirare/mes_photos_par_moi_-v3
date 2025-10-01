@@ -1,650 +1,311 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Galerie Aviron</title>
-    <!-- Le CSS est inclus ici pour le mandat de fichier unique -->
-    <style>
-        /* General Body and Header Styling */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background-color: #f4f4f4;
-            color: #333;
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Galerie Aviron</title>
+  <style>
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      margin: 0;
+      background: #f4f4f4;
+      color: #333;
+    }
+    header {
+      background: #333;
+      color: #fff;
+      padding: 1rem 0;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    main { max-width: 1200px; margin: 20px auto; padding: 0 20px; }
 
-        header {
-            background-color: #333;
-            color: white;
-            padding: 1rem 0;
-            text-align: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
+    /* Filtres */
+    .filters {
+      background: #fff;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .filter-btn {
+      display: inline-block;
+      padding: 10px 20px;
+      margin: 5px;
+      border-radius: 20px;
+      border: 1px solid #ddd;
+      background: #f8f8f8;
+      text-decoration: none;
+      color: #333;
+      transition: 0.3s;
+    }
+    .filter-btn:hover { background: #007bff; color: #fff; border-color: #007bff; }
 
-        header h1 {
-            margin-bottom: 10px;
-        }
+    /* Accordéon */
+    details.accordion-item {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      margin-bottom: 15px;
+    }
+    summary {
+      list-style: none;
+      background: #007bff;
+      color: #fff;
+      padding: 15px 20px;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-radius: 8px;
+    }
+    details[open] > summary { border-radius: 8px 8px 0 0; }
+    summary .arrow { transition: transform 0.3s; }
+    details[open] summary .arrow { transform: rotate(90deg); }
 
-        .search-bar {
-            margin-top: 10px;
-        }
+    .details-content { padding: 15px; }
+    .group-header-aviron { font-size: 1.1em; color: #0056b3; margin: 10px 0; }
 
-        .search-bar input {
-            padding: 8px;
-            border: none;
-            border-radius: 4px;
-            width: 250px;
-            margin-right: 5px;
-        }
+    /* Grille de photos */
+    .photo-grid-aviron {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 10px;
+    }
+    .photo-item-aviron {
+      cursor: pointer;
+      border-radius: 4px;
+      overflow: hidden;
+      background: #fff;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      transition: 0.2s;
+    }
+    .photo-item-aviron:hover { transform: scale(1.05); }
+    .photo-item-aviron img { width: 100%; height: 80px; object-fit: contain; }
 
-        .search-bar button {
-            padding: 8px 15px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
+    /* Modale / Carrousel */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      max-width: 1000px;
+      width: 100%;
+      position: relative;
+      pointer-events: auto; /* s'assurer que les clics passent */
 
-        .search-bar button:hover {
-            background-color: #0056b3;
-        }
+    }
+      
+    .close-button {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  font-size: 28px;
+  color: #333;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 20px;       /* zone cliquable plus grande */
+  line-height: 1;
+  border-radius: 50%;  /* optionnel : zone arrondie */
+}
 
-        /* Main Content Area */
-        main {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 0 20px;
-        }
+.close-button:hover {
+  background: rgba(0,0,0,0.1); /* léger feedback visuel au survol */
+}
 
-        /* Filter Buttons */
-        .filters {
-            background-color: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            margin-bottom: 20px;
-            text-align: center;
-        }
+    .close-button:focus { outline: none; }
 
-        .filter-buttons button,
-        .filter-buttons a.filter-btn {
-            padding: 10px 20px;
-            margin: 5px;
-            border: 1px solid #ddd;
-            border-radius: 20px;
-            background-color: #f8f8f8;
-            cursor: pointer;
-            transition: background-color 0.3s, color 0.3s;
-            text-decoration: none;
-            display: inline-block;
-            color: #333;
-        }
+    .carousel-container { position: relative; height: 80vh; overflow: hidden; }
+    .carousel-track { display: flex; transition: transform 0.5s ease-in-out; height: 100%; }
+    .carousel-item {
+      min-width: 100%;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .carousel-item img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .carousel-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.5);
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 1.5em;
+    }
+      
 
-        .filter-buttons button:hover,
-        .filter-buttons button.active,
-        .filter-buttons a.filter-btn:hover {
-            background-color: #007bff;
-            color: white;
-            border-color: #007bff;
-        }
-
-        /* Photo Grid (inchangé du code fourni, mais non utilisé ici) */
-        .photo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-
-        /* Pour que les images dans la grille principale (si elle était utilisée) ne soient pas rognées */
-        .photo-item img {
-            width: 100%; /* Ajouté pour la robustesse */
-            height: 200px; /* Fixed height for consistent grid */
-            object-fit: contain; /* Montre l'image entière */
-            display: block;
-            background-color: white; /* Pour que la zone de remplissage soit blanche */
-        }
-
-        .photo-info {
-            padding: 10px;
-            background-color: #f9f9f9;
-        }
-
-        .photo-info h3 {
-            margin-top: 0;
-            margin-bottom: 5px;
-            font-size: 1.1em;
-        }
-
-        .photo-info p {
-            font-size: 0.9em;
-            color: #666;
-            margin-bottom: 5px;
-        }
-
-        /* Modal and Carousel Styling (Global Modal) */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.8);
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: auto;
-            padding: 20px;
-            border-radius: 10px;
-            /* La largeur est fixée à 90% sur mobile et jusqu'à 1000px sur desktop */
-            width: 100%; 
-            max-width: 1000px;
-            position: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        .close-button {
-            color: #aaa;
-            font-size: 28px;
-            font-weight: bold;
-            position: absolute;
-            top: 10px;
-            right: 20px;
-            cursor: pointer;
-            z-index: 1001;
-        }
-
-        .close-button:hover,
-        .close-button:focus {
-            color: black;
-            text-decoration: none;
-        }
-
-        .carousel-container {
-            position: relative;
-            width: 100%;
-            height: 80vh; /* Utilise la hauteur de la fenêtre pour le carrousel principal */
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-
-        .carousel-track {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-            height: 100%;
-        }
-
-        .carousel-item {
-            min-width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-shrink: 0;
-        }
-
-        /* * LA CORRECTION CLÉ POUR LE MOBILE EST ICI * */
-        /* object-fit: contain permet à l'image de prendre le max de place (hauteur si portrait, largeur si paysage) */
-        /* sans jamais être rognée, répondant exactement à la demande. */
-        .carousel-item img {
-            max-width: 80%;
-            max-height: 80%;
-            object-fit: contain; 
-            display: block;
-        }
-
-        .carousel-nav {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background-color: rgba(0, 0, 0, 0.5);
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            cursor: pointer;
-            font-size: 1.5em;
-            z-index: 10;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        .carousel-nav.prev {
-            left: 10px;
-        }
-
-        .carousel-nav.next {
-            right: 10px;
-        }
-
-        .carousel-nav:hover {
-            background-color: rgba(0, 0, 0, 0.8);
-        }
-
-        /* Footer Styling */
-        footer {
-            text-align: center;
-            padding: 20px;
-            margin-top: 40px;
-            background-color: #333;
-            color: white;
-            box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
-        }
-
-        /* Nouveaux styles pour les accordéons (page aviron.html) */
-        .accordion-item {
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            margin-bottom: 15px;
-            overflow: hidden;
-        }
-
-        .accordion-header {
-            background-color: #007bff;
-            color: white;
-            padding: 15px 20px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 1.2em;
-            font-weight: bold;
-            border-radius: 8px 8px 0 0;
-        }
-
-        .accordion-header:hover {
-            background-color: #0056b3;
-        }
-
-        .accordion-header .arrow {
-            font-size: 1.5em;
-            transition: transform 0.3s ease;
-        }
-
-        .accordion-header.active .arrow {
-            transform: rotate(90deg);
-        }
-
-        .accordion-content {
-            padding: 0 20px;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
-            border-top: 1px solid #eee;
-        }
-
-        .accordion-content.open {
-            max-height: 2000px; /* Augmenté pour les galeries plus grandes */
-            padding-top: 15px;
-            padding-bottom: 15px;
-        }
-
-        .accordion-content p {
-            margin-top: 0;
-            margin-bottom: 15px;
-            color: #555;
-        }
-
-        /* --- STYLES POUR LA GALERIE VERTICALE GROUPÉE (Miniatures) --- */
-
-        /* Style de l'ID de groupe (TUC, BAC) sur sa propre ligne */
-        .group-header-aviron {
-            font-size: 1.1em;
-            font-weight: bold;
-            color: #0056b3; /* Bleu pour le titre de groupe */
-            margin-top: 15px;
-            margin-bottom: 10px;
-            border-bottom: 2px solid #ddd;
-            padding-bottom: 5px;
-        }
-
-        /* Conteneur de grille pour les photos sous chaque ID */
-        .photo-grid-aviron {
-            display: grid;
-            /* Permet de 2 à 4 colonnes sur mobile, plus sur desktop */
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); 
-            gap: 10px;
-            padding-bottom: 15px;
-        }
-
-        .photo-grid-aviron .photo-item-aviron {
-            border-radius: 4px;
-            overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-            cursor: pointer;
-            transition: transform 0.2s;
-            background-color: #f9f9f9;
-        }
-
-        .photo-grid-aviron .photo-item-aviron:hover {
-            transform: scale(1.05);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-
-        /* Miniatures : Affiche l'image entière sans rogner */
-        .photo-grid-aviron .photo-item-aviron img {
-            width: 100%;
-            height: 80px; /* Hauteur fixe pour les miniatures */
-            object-fit: contain;
-            display: block;
-            background-color: white; /* Pour que la zone de remplissage soit blanche */
-        }
-
-        /* Suppression des styles des anciens carrousels internes */
-        .event-carousel-container, .event-carousel-track, .event-carousel-item, .event-carousel-nav {
-            display: none !important; /* Désactive les anciens éléments de carrousel interne */
-        }
-    </style>
+    .carousel-nav.prev { left: 10px; }
+    .carousel-nav.next { right: 10px; }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Événements Aviron du TUC</h1>
-        <div class="search-bar">
-            <!-- La recherche pourrait être adaptée pour les événements ici si nécessaire -->
-        </div>
-    </header>
+  <header><h1>Événements Aviron du TUC</h1></header>
+  <main>
+    <section class="filters">
+      <a href="index.html" class="filter-btn">Retour à la page principale</a>
+    </section>
+    <section class="events-gallery">
+      <h2>Nos Événements en Images</h2>
+      <div id="eventsContainer"><p style="text-align:center;">Chargement en cours...</p></div>
+    </section>
+  </main>
 
-    <main>
-
-        <section class="filters">
-            <h2></h2>
-            <div class="filter-buttons">
-                <!-- Ceci est un lien simulé, assurez-vous que 'index.html' existe -->
-                <a href="index.html" class="filter-btn">Retour à la page principale</a>
-            </div>
-        </section>
-
-        <section class="events-gallery">
-            <h2>Nos Événements en Images</h2>
-            <div id="eventsContainer">
-                <!-- Les événements et leurs galeries seront chargés ici par JavaScript -->
-                <p style="text-align: center; color: #666;">Chargement des événements en cours...</p>
-            </div>
-        </section>
-    </main>
-
-    <!-- Modale pour le carrousel d'images (Global) -->
-    <div id="carouselModal" class="modal">
-        <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <div class="carousel-container">
-                <div class="carousel-track">
-                    <!-- Les images filtrées par groupId seront injectées ici -->
-                </div>
-                <button class="carousel-nav prev">&#10094;</button>
-                <button class="carousel-nav next">&#10095;</button>
-            </div>
-        </div>
+  <!-- Modale -->
+  <div id="carouselModal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+      <button class="close-button" aria-label="Fermer la modale">&times;</button>
+      <div class="carousel-container">
+        <div class="carousel-track"></div>
+        <button class="carousel-nav prev">❮</button>
+        <button class="carousel-nav next">❯</button>
+      </div>
     </div>
+  </div>
 
-    <footer>
-        <p>&copy; 2025 Ma Galerie Photo. Tous droits réservés.</p>
-    </footer>
+  <footer><p style="text-align:center;">© 2025 Ma Galerie Photo</p></footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const eventsContainer = document.getElementById('eventsContainer');
-            const carouselModal = document.getElementById('carouselModal');
-            
-            // Récupération des éléments de la modale
-            let closeButton, carouselTrack, prevButton, nextButton;
+  <script>
+document.addEventListener('DOMContentLoaded', () => {
+  const eventsContainer = document.getElementById('eventsContainer');
+  const modal = document.getElementById('carouselModal');
+  const closeButton = modal.querySelector('.close-button');
+  const carouselTrack = modal.querySelector('.carousel-track');
+  const prevBtn = modal.querySelector('.carousel-nav.prev');
+  const nextBtn = modal.querySelector('.carousel-nav.next');
 
-            if (carouselModal) {
-                closeButton = carouselModal.querySelector('.close-button');
-                carouselTrack = carouselModal.querySelector('.carousel-track');
-                prevButton = carouselModal.querySelector('.carousel-nav.prev');
-                nextButton = carouselModal.querySelector('.carousel-nav.next');
-            } else {
-                console.error("ERREUR: L'élément #carouselModal n'a pas été trouvé.");
-                return;
-            }
+  let photos = [], currentIndex = 0;
 
-            let currentSlideIndex = 0;
-            let currentCarouselPhotos = []; // Photos du groupe actuellement affichées dans la modale
-            let eventsDataCache = []; // Cache pour stocker les données des événements
+  async function loadEvents() {
+    try {
+      const res = await fetch('generate_aviron_data.php');
+      const data = await res.json();
+      renderEvents(data);
+    } catch (e) {
+      eventsContainer.innerHTML = '<p style="color:red;text-align:center;">Erreur de chargement.</p>';
+      console.error(e);
+    }
+  }
 
-            // --- Fonction pour charger les données des événements depuis le backend PHP ---
-            const loadEventsFromBackend = async () => {
-                // ATTENTION : Veuillez remplacer l'URL ci-dessous par le chemin correct de votre script PHP sur votre serveur.
-                // Si vous exécutez ce fichier localement, vous devrez peut-être simuler les données ou utiliser un serveur local.
-                // NOTE: L'URL doit être accessible par ce client, sinon le chargement échouera.
-                const apiUrl = 'https:///mesphotosparmoi.byethost31.com/generate_aviron_data.php'; 
+  function renderEvents(events) {
+    eventsContainer.innerHTML = '';
+    events.forEach(ev => {
+      const details = document.createElement('details');
+      details.classList.add('accordion-item');
+      details.innerHTML = `
+        <summary>
+          <h3 style="margin:0;">${ev.eventName}</h3>
+          <span class="arrow">▶</span>
+        </summary>
+        <div class="details-content">
+          <p>${ev.eventDescription}</p>
+          <div id="gallery-${ev.eventId}"></div>
+        </div>
+      `;
+      eventsContainer.appendChild(details);
 
-                try {
-                    const response = await fetch(apiUrl);
-                    
-                    if (!response.ok) {
-                        const errorText = await response.text();
-                        throw new Error(`Erreur HTTP: ${response.status} - ${response.statusText}. Réponse du serveur: ${errorText}`);
-                    }
+      details.addEventListener('toggle', () => {
+        if (details.open) renderGallery(ev.eventId, ev.photos);
+      });
+    });
+  }
 
-                    const data = await response.json();
+  function renderGallery(id, photosList) {
+    const container = document.getElementById(`gallery-${id}`);
+    if (!container || container.childElementCount > 0) return;
 
-                    if (data.error) {
-                        console.error("Erreur du backend (message PHP):", data.error);
-                        eventsContainer.innerHTML = '<p style="color: red;">Désolé, impossible de charger les événements pour le moment. (Erreur du serveur)</p>';
-                        return;
-                    }
+    const grouped = photosList.reduce((acc, p) => {
+      const g = p.groupId || 'autre';
+      (acc[g] = acc[g] || []).push(p);
+      return acc;
+    }, {});
 
-                    if (!Array.isArray(data)) {
-                        console.error("Les données reçues ne sont pas un tableau:", data);
-                        eventsContainer.innerHTML = '<p style="color: red;">Format de données inattendu reçu du serveur.</p>';
-                        return;
-                    }
+    for (const group in grouped) {
+      const title = document.createElement('h4');
+      title.classList.add('group-header-aviron');
+      title.textContent = `Équipage du/de: ${group.toUpperCase()}`;
+      container.appendChild(title);
 
-                    eventsDataCache = data; // Stocke les données chargées en cache
-                    renderEvents(eventsDataCache);
+      const grid = document.createElement('div');
+      grid.classList.add('photo-grid-aviron');
 
-                } catch (error) {
-                    console.error("Erreur lors du chargement des événements :", error);
-                    eventsContainer.innerHTML = '<p style="color: red;">Désolé, une erreur est survenue lors du chargement des événements. Veuillez vérifier la console pour plus de détails et assurez-vous que le chemin PHP est correct.</p>';
-                }
-            };
+      grouped[group].forEach(p => {
+        const item = document.createElement('div');
+        item.classList.add('photo-item-aviron');
+        item.innerHTML = `<img src="${p.thumb}" alt="${p.description || ''}">`;
+        item.addEventListener('click', () => openCarousel(grouped[group], p.id));
+        grid.appendChild(item);
+      });
 
-            // --- Fonctions de rendu et de logique ---
+      container.appendChild(grid);
+    }
+  }
 
-            /**
-             * Rend les accordéons d'événements.
-             * @param {Array<Object>} events - Tableau des objets événement.
-             */
-            const renderEvents = (events) => {
-                eventsContainer.innerHTML = '';
+  function openCarousel(groupPhotos, id) {
+    photos = groupPhotos;
+    currentIndex = photos.findIndex(p => p.id === id);
+    renderCarouselItems();
+    modal.style.display = 'flex';
+    setTimeout(() => updateCarousel(), 10);
+  }
 
-                if (events.length === 0) {
-                    eventsContainer.innerHTML = '<p class="text-center" style="color: #666;">Aucun événement d\'aviron trouvé pour le moment.</p>';
-                    return;
-                }
+  function renderCarouselItems() {
+    carouselTrack.innerHTML = '';
+    photos.forEach(p => {
+      const item = document.createElement('div');
+      item.classList.add('carousel-item');
+      item.innerHTML = `<img src="${p.src}" alt="">`;
+      carouselTrack.appendChild(item);
+    });
+  }
 
-                events.forEach(event => {
-                    const accordionItem = document.createElement('div');
-                    accordionItem.classList.add('accordion-item');
+  function updateCarousel() {
+    const width = carouselTrack.parentElement.offsetWidth;
+    carouselTrack.style.transform = `translateX(-${currentIndex * width}px)`;
+  }
 
-                    const accordionHeader = document.createElement('div');
-                    accordionHeader.classList.add('accordion-header');
-                    accordionHeader.innerHTML = `
-                        <h3>${event.eventName}</h3>
-                        <span class="arrow">&#9654;</span>
-                    `;
-                    accordionItem.appendChild(accordionHeader);
+  prevBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex - 1 + photos.length) % photos.length;
+    updateCarousel();
+  });
 
-                    const accordionContent = document.createElement('div');
-                    accordionContent.classList.add('accordion-content');
-                    
-                    // Conteneur pour la description et la galerie groupée
-                    accordionContent.innerHTML = `
-                        <p>${event.eventDescription}</p>
-                        <div id="gallery-container-${event.eventId}">
-                            <!-- La galerie verticale groupée sera rendue ici -->
-                        </div>
-                    `;
-                    accordionItem.appendChild(accordionContent);
-                    eventsContainer.appendChild(accordionItem);
+  nextBtn.addEventListener('click', () => {
+    currentIndex = (currentIndex + 1) % photos.length;
+    updateCarousel();
+  });
 
-                    accordionHeader.addEventListener('click', () => {
-                        accordionHeader.classList.toggle('active');
-                        accordionContent.classList.toggle('open');
+  closeButton.addEventListener('click', (e) => {
+    e.stopPropagation();
+    modal.style.display = 'none';
+  });
 
-                        if (accordionContent.classList.contains('open')) {
-                            // Appel de la fonction de rendu de la galerie groupée
-                            renderEventGallery(event.eventId, event.photos);
-                        }
-                    });
-                });
-            };
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) modal.style.display = 'none';
+  });
 
-            /**
-             * Rend la galerie de photos de l'événement, groupée par groupId.
-             * Chaque groupId est affiché sur sa propre ligne (titre de groupe).
-             * @param {string} eventId - L'ID de l'événement.
-             * @param {Array<Object>} photos - Les photos de cet événement.
-             */
-            const renderEventGallery = (eventId, photos) => {
-                const galleryContainer = document.getElementById(`gallery-container-${eventId}`);
-                if (!galleryContainer) return;
-                
-                galleryContainer.innerHTML = '';
+  window.addEventListener('resize', () => {
+    if (modal.style.display === 'flex') updateCarousel();
+  });
 
-                if (photos.length === 0) {
-                    galleryContainer.innerHTML = '<p style="text-align: center; color: #666;">Aucune photo pour cet événement.</p>';
-                    return;
-                }
-
-                // 1. Regroupement des photos par 'groupId'
-                const groupedPhotos = photos.reduce((acc, photo) => {
-                    // Assurez-vous que le groupId est valide, sinon utilisez 'Autre'
-                    const groupId = photo.groupId || 'autre'; 
-                    if (!acc[groupId]) {
-                        acc[groupId] = [];
-                    }
-                    acc[groupId].push(photo);
-                    return acc;
-                }, {});
-
-                // 2. Itération sur chaque groupe pour l'affichage vertical
-                Object.keys(groupedPhotos).forEach(groupId => {
-                    
-                    // Création du titre pour le groupId (l'ID sur une ligne différente)
-                    const groupHeader = document.createElement('h4');
-                    groupHeader.classList.add('group-header-aviron');
-                    groupHeader.textContent = `Équipage du/de: ${groupId.toUpperCase()}`;
-                    galleryContainer.appendChild(groupHeader); 
-
-                    const photoGrid = document.createElement('div');
-                    photoGrid.classList.add('photo-grid-aviron');
-
-                    // 3. Affichage de la grille des photos du groupe
-                    groupedPhotos[groupId].forEach(photo => {
-                        const photoItem = document.createElement('div');
-                        photoItem.classList.add('photo-item-aviron');
-
-                        // Utilise photo.src et photo.description/title passés par le PHP
-                        photoItem.innerHTML = `<img src="${photo.src}" alt="${photo.description || photo.title}" title="${photo.description || photo.title}">`;
-
-                        // Le clic ouvre la modale du carrousel, filtrée pour n'afficher QUE les photos de ce groupe
-                        photoItem.addEventListener('click', () => {
-                            // On passe TOUTES les photos du groupe à la modale
-                            openGlobalCarousel(photo.id, groupedPhotos[groupId]); 
-                        });
-
-                        photoGrid.appendChild(photoItem);
-                    });
-
-                    galleryContainer.appendChild(photoGrid);
-                });
-            };
-
-            // --- Fonctions de la Modale/Carrousel Global ---
-
-            /**
-             * Ouvre la modale du carrousel global avec le sous-ensemble de photos du groupe cliqué.
-             * @param {string} startPhotoId - L'ID de la photo cliquée pour commencer le carrousel.
-             * @param {Array<Object>} groupPhotos - Toutes les photos appartenant au groupe (groupId) cliqué.
-             */
-            const openGlobalCarousel = (startPhotoId, groupPhotos) => {
-                carouselTrack.innerHTML = '';
-                currentCarouselPhotos = groupPhotos;
-                
-                const startIndex = currentCarouselPhotos.findIndex(photo => photo.id.toString() === startPhotoId.toString());
-
-                if (currentCarouselPhotos.length === 0) return;
-
-                currentCarouselPhotos.forEach(photo => {
-                    const carouselItem = document.createElement('div');
-                    carouselItem.classList.add('carousel-item');
-                    carouselItem.setAttribute('data-id', photo.id);
-                    // L'image ici utilisera les styles .carousel-item img pour être responsive
-                    carouselItem.innerHTML = `<img src="${photo.src}" alt="${photo.title || 'Image du carrousel'}">`;
-                    carouselTrack.appendChild(carouselItem);
-                });
-
-                currentSlideIndex = startIndex !== -1 ? startIndex : 0;
-                // S'assure que la modale est visible avant de calculer la position
-                carouselModal.style.display = 'flex'; 
-                // Assure le positionnement correct de la première image
-                setTimeout(updateGlobalCarouselPosition, 50); 
-            };
-
-            /**
-             * Met à jour la position du carrousel global.
-             */
-            const updateGlobalCarouselPosition = () => {
-                if (carouselTrack.children.length === 0) return;
-                // Utilise offsetWidth pour obtenir la largeur réelle du conteneur parent 
-                // (le carousel-item est réglé sur min-width: 100% de son parent)
-                const itemWidth = carouselTrack.offsetWidth; 
-                carouselTrack.style.transform = `translateX(-${currentSlideIndex * itemWidth}px)`;
-            };
-
-            // Gestion de la navigation et de la fermeture de la modale
-            if (prevButton) {
-                prevButton.addEventListener('click', () => {
-                    currentSlideIndex = (currentSlideIndex > 0) ? currentSlideIndex - 1 : currentCarouselPhotos.length - 1;
-                    updateGlobalCarouselPosition();
-                });
-            }
-            
-            if (nextButton) {
-                nextButton.addEventListener('click', () => {
-                    currentSlideIndex = (currentSlideIndex < currentCarouselPhotos.length - 1) ? currentSlideIndex + 1 : 0;
-                    updateGlobalCarouselPosition();
-                });
-            }
-
-            if (closeButton) {
-                closeButton.addEventListener('click', () => {
-                    carouselModal.style.display = 'none';
-                });
-            }
-            
-            // Fermeture de la modale si l'utilisateur clique en dehors du contenu
-            window.addEventListener('click', (event) => {
-                if (event.target === carouselModal) {
-                    carouselModal.style.display = 'none';
-                }
-            });
-
-            // Gère le redimensionnement pour maintenir l'image centrée (utile en mode mobile)
-            window.addEventListener('resize', () => {
-                if (carouselModal.style.display === 'flex') {
-                    updateGlobalCarouselPosition();
-                }
-            });
-
-            // --- Initialisation ---
-            loadEventsFromBackend(); 
-        });
-    </script>
+  loadEvents();
+});
+  </script>
 </body>
 </html>
-v
