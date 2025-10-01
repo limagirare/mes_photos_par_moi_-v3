@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mes photos par moi</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="logo.png" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <h1>Mes photos par moi</h1>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Rechercher des photos...">
+            <button id="searchButton">Rechercher</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="filters">
+            <h2>Filtrer par Thème</h2>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-theme="all">Tout</button>
+                <button class="filter-btn" data-theme="mix">Mix</button>
+                <button class="filter-btn" data-theme="art">Art</button>
+                <button class="filter-btn" data-theme="nature">Nature</button>
+                <button class="filter-btn" data-theme="ville">Ville</button>
+                <button class="filter-btn" data-theme="sport">Sport</button>
+                <button class="filter-btn" data-theme="animaux">Animaux</button>
+                <a href="aviron.html" class="filter-btn">Aviron</a>
+
+            </div>
+        </section>
+
+        <section class="gallery">
+            <h2>Nos Photos</h2>
+            <div class="photo-grid" id="photoGrid">
+                <!-- Les photos seront chargées ici par JavaScript -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Modale pour le carrousel d'images -->
+    <div id="carouselModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <div class="carousel-container">
+                <div class="carousel-track">
+                    <!-- Les images du carrousel seront chargées ici -->
+                </div>
+                <button class="carousel-nav prev">&#10094;</button>
+                <button class="carousel-nav next">&#10095;</button>
+            </div>
+            <!-- La section de notation a été supprimée d'ici -->
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Mes photos par moi. Tous droits réservés.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
