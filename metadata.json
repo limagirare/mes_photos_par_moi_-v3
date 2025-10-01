@@ -1,0 +1,133 @@
+{
+  "eventId": "challenge_villemur_2025",
+  "eventName": "challenge de la saint michel à villemur - 2025",
+  "eventDescription": "Challenge organisé à l'occasion des fetes de villemur.",
+  "photos": [
+    {
+      "filename": "tuc/double.jpeg",
+      "title": "challenge de la saint michel à villemur 2025",
+      "description": "Equipage du toulouse université club.",
+      "groupId": "tuc",
+        "orientation": "portrait"
+
+    },
+    {
+      "filename": "tuc/course.jpeg",
+      "title": "challenge de la saint michel à villemur 2025",
+      "description": "Equipage du toulouse université club.",
+      "groupId": "tuc",
+        "orientation": "portrait"
+    },
+    {
+      "filename": "tuc/embarquement.jpeg",
+      "title": "challenge de la saint michel à villemur 2025",
+      "description": "Equipage du toulouse université club.",
+      "groupId": "tuc",
+        "orientation": "paysage"
+    },
+    {
+      "filename": "tuc/descente.jpeg",
+      "title": "challenge de la saint michel à villemur 2025",
+      "description": "Equipage du toulouse université club.",
+      "groupId": "tuc",
+        "orientation": "portrait"
+    },
+    {
+      "filename": "tuc/clement1.jpeg",
+      "title": "challenge de la saint michel à villemur 2025",
+      "description": "Equipage du toulouse université club.",
+      "groupId": "tuc",
+        "orientation": "portrait"
+    },
+    {
+      "filename": "tuc/alix.jpeg",
+      "title": "challenge de la saint michel à villemur 2025",
+      "description": "Equipage du toulouse université club.",
+      "groupId": "tuc",
+        "orientation": "portrait"
+    },
+    {
+      "filename": "tuc/clement2.jpeg",
+      "title": "challenge de la saint michel à villemur 2025",
+      "description": "Equipage du toulouse université club.",
+      "groupId": "tuc",
+        "orientation": "portrait"
+    },
+    {
+      "filename": "bac/1xj14f.jpg",
+      "title": "challenge de la saint michel à villemur 2025",
+      "description": "Equipage de Bressols aviron club.",
+      "groupId": "bac",
+        "orientation": "portrait"
+    },
+    
+    {
+      "filename": "bac/1xj14h.jpg",
+      "title": "challenge de la saint michel à villemur 2025",
+      "description": "Equipage de Bressols aviron club.",
+      "groupId": "bac",
+        "orientation": "portrait"
+    },
+    {
+      "filename": "bac/4xsenior.jpg",
+      "title": "challenge de la saint michel à villemur 2025",
+      "description": "Equipage de Bressols aviron club.",
+      "groupId": "bac",
+        "orientation": "portrait"
+    },
+    {
+      "filename": "bac/4xsenior-1.jpg",
+      "title": "challenge de la saint michel à villemur 2025",
+      "description": "Equipage de Bressols aviron club.",
+      "groupId": "bac",
+        "orientation": "portrait"
+    },
+    {
+      "filename": "bac/8xm.jpg",
+      "title": "challenge de la saint michel à villemur 2025",
+      "description": "Equipage de Bressols aviron club.",
+      "groupId": "bac",
+        "orientation": "portrait"
+    },
+    {
+      "filename": "bac/8xseniorh.jpg",
+      "title": "challenge de la saint michel à villemur 2025",
+      "description": "Equipage de Bressols aviron club.",
+      "groupId": "bac",
+        "orientation": "portrait"
+    },
+    {
+      "filename": "bac/coupe.jpg",
+      "title": "challenge de la saint michel à villemur 2025",
+      "description": "Equipage de Bressols aviron club.",
+      "groupId": "bac",
+        "orientation": "portrait"
+    },
+
+    {
+      "filename": "bac/ponton.jpg",
+      "title": "challenge de la saint michel à villemur 2025",
+      "description": "Equipage de Bressols aviron club.",
+      "groupId": "bac",
+        "orientation": "portrait"
+    },
+     {"filename":"bocage/2xseniorh.jpg",
+     "title": "challenge de la saint michel à villemur 2025",
+      "description": "Equipage de Bressols aviron club.",
+      "groupId": "bocage",
+       "orientation": "portrait"
+    },
+     {"filename":"albi/2xJ16h.jpg",
+     "title": "challenge de la saint michel à villemur 2025",
+      "description": "Equipage de Bressols aviron club.",
+      "groupId": "albi",
+       "orientation": "portrait"
+    },
+     {"filename":"albi/2xJ16h-1.jpg",
+     "title": "challenge de la saint michel à villemur 2025",
+      "description": "Equipage de Bressols aviron club.",
+      "groupId": "albi",
+       "orientation": "portrait"
+    }
+  ]
+}
