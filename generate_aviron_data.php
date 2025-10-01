@@ -1,27 +1,28 @@
 <?php
-header('Content-Type: application/json'); // Indique que la réponse est du JSON
-header('Access-Control-Allow-Origin: *'); // Autorise les requêtes de n'importe quel domaine (pour le développement)
+// generate_aviron_data.php
+// Scanne img/aviron_events/* et renvoie un tableau JSON d'événements
+
+header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *'); // Pour développement, retirez en production si nécessaire
 
 $eventsData = [];
-$photoIdCounter = 1; // Compteur pour attribuer des IDs uniques aux photos
+$photoIdCounter = 1;
 
-// Chemin vers le dossier racine des événements d'aviron
 $avironEventsPath = 'img/aviron_events/';
-
-// Scan des dossiers d'événements d'aviron
+// Cherche dossiers d'événements
 $eventDirectories = glob($avironEventsPath . '*', GLOB_ONLYDIR);
 
 foreach ($eventDirectories as $eventDir) {
-    $metadataFile = $eventDir . '/metadata.json';
-    $eventFolderName = basename($eventDir); // Nom du dossier de l'événement
+    $metadataFile = rtrim($eventDir, '/') . '/metadata.json';
+    $eventFolderName = basename($eventDir);
 
     if (file_exists($metadataFile)) {
         $metadataContent = file_get_contents($metadataFile);
         $eventMetadata = json_decode($metadataContent, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
-            error_log("Erreur de décodage JSON dans " . $metadataFile . ": " . json_last_error_msg());
-            continue; // Passe au dossier d'événement suivant si le JSON est invalide
+            error_log("Erreur de décodage JSON dans $metadataFile : " . json_last_error_msg());
+            continue;
         }
 
         $eventId = $eventMetadata['eventId'] ?? $eventFolderName;
@@ -32,24 +33,22 @@ foreach ($eventDirectories as $eventDir) {
         if (isset($eventMetadata['photos']) && is_array($eventMetadata['photos'])) {
             foreach ($eventMetadata['photos'] as $imageData) {
                 $filename = $imageData['filename'] ?? null;
+                // Construire le chemin relatif accessible par le web
                 $fullImagePath = $eventDir . '/' . $filename;
 
                 if ($filename && file_exists($fullImagePath)) {
-                    
-                    // --- LA LOGIQUE D'ORIENTATION ET DIMENSIONS A ÉTÉ RETIRÉE ---
-                    
                     $photo = [
                         'id' => $photoIdCounter++,
                         'src' => $fullImagePath,
-                        'thumb' => $fullImagePath, // Pour l'instant, thumb est le même que src
+                        'thumb' => $fullImagePath,
                         'title' => $imageData['title'] ?? 'Titre inconnu',
                         'description' => $imageData['description'] ?? '',
-                        'groupId' => $imageData['groupId'] ?? $eventId . '_default_group' // Groupe par défaut
-                        // Les champs 'orientation', 'width', et 'height' ne sont plus inclus
+                        'groupId' => $imageData['groupId'] ?? ($eventId . '_default_group'),
+                        'orientation' => $imageData['orientation'] ?? null
                     ];
                     $eventPhotos[] = $photo;
                 } else {
-                    error_log("Fichier image manquant ou non spécifié dans " . $eventDir . ": " . ($filename ?? 'N/A'));
+                    error_log("Fichier image manquant ou non spécifié dans $eventDir : " . ($filename ?? 'N/A'));
                 }
             }
         }
@@ -64,9 +63,10 @@ foreach ($eventDirectories as $eventDir) {
         }
 
     } else {
-        error_log("Fichier metadata.json manquant pour l'événement : " . $eventDir);
+        error_log("Fichier metadata.json manquant pour l'événement : $eventDir");
     }
 }
 
-echo json_encode($eventsData);
+// Renvoie le JSON avec slashes non échappés (plus lisible pour URLs)
+echo json_encode($eventsData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 ?>
