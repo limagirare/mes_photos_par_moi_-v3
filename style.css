@@ -1,0 +1,355 @@
+/* General Body and Header Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 1rem 0;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+header h1 {
+    margin-bottom: 10px;
+}
+
+.search-bar {
+    margin-top: 10px;
+}
+
+.search-bar input {
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    width: 250px;
+    margin-right: 5px;
+}
+
+.search-bar button {
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.search-bar button:hover {
+    background-color: #0056b3;
+}
+
+/* Main Content Area */
+main {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+/* Filter Buttons (ajusté pour le bouton Aviron) */
+.filters {
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.filter-buttons button,
+.filter-buttons a.filter-btn { /* Style pour le nouveau bouton Aviron */
+    padding: 10px 20px;
+    margin: 5px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    background-color: #f8f8f8;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+    text-decoration: none; /* Pour les liens */
+    display: inline-block; /* Pour que les liens se comportent comme des boutons */
+    color: #333; /* Couleur du texte par défaut pour les liens */
+}
+
+.filter-buttons button:hover,
+.filter-buttons button.active,
+.filter-buttons a.filter-btn:hover { /* Style au survol pour le bouton Aviron */
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+/* Photo Grid (inchangé) */
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.photo-item {
+    border: 1px solid #eee;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+}
+
+.photo-item:hover {
+    transform: translateY(-5px);
+}
+
+.photo-item img {
+    width: 100%;
+    height: 200px; /* Fixed height for consistent grid */
+    object-fit: cover;
+    display: block;
+}
+
+.photo-info {
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+.photo-info h3 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    font-size: 1.1em;
+}
+
+.photo-info p {
+    font-size: 0.9em;
+    color: #666;
+    margin-bottom: 5px;
+}
+
+/* Modal and Carousel Styling (inchangé, réutilisé) */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.8);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 800px;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.close-button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: black;
+    text-decoration: none;
+}
+
+.carousel-container {
+    position: relative;
+    width: 100%;
+    height: 400px; /* Fixed height for carousel */
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    height: 100%;
+}
+
+.carousel-item {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.carousel-item img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 1.5em;
+    z-index: 10;
+    border-radius: 5px;
+}
+
+.carousel-nav.prev {
+    left: 10px;
+}
+
+.carousel-nav.next {
+    right: 10px;
+}
+
+.carousel-nav:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Footer Styling (inchangé) */
+footer {
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+    background-color: #333;
+    color: white;
+    box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+}
+
+/* Nouveaux styles pour les accordéons (page aviron.html) */
+.accordion-item {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    margin-bottom: 15px;
+    overflow: hidden; /* Pour cacher le contenu qui dépasse */
+}
+
+.accordion-header {
+    background-color: #007bff;
+    color: white;
+    padding: 15px 20px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.2em;
+    font-weight: bold;
+    border-radius: 8px 8px 0 0; /* Coins arrondis en haut */
+}
+
+.accordion-header:hover {
+    background-color: #0056b3;
+}
+
+.accordion-header .arrow {
+    font-size: 1.5em;
+    transition: transform 0.3s ease;
+}
+
+.accordion-header.active .arrow {
+    transform: rotate(90deg); /* Flèche vers le bas quand actif */
+}
+
+.accordion-content {
+    padding: 0 20px; /* Padding horizontal, pas de padding vertical initial */
+    max-height: 0; /* Masqué par défaut avec max-height */
+    overflow: hidden; /* Cache le contenu qui dépasse */
+    transition: max-height 0.5s ease-out, padding 0.5s ease-out; /* Transition pour l'ouverture */
+    border-top: 1px solid #eee; /* Ligne de séparation */
+}
+
+.accordion-content.open { /* Classe ajoutée par JS pour ouvrir l'accordéon */
+    max-height: 1000px; /* Une valeur suffisamment grande pour contenir le contenu */
+    padding-top: 15px; /* Padding vertical quand ouvert */
+    padding-bottom: 15px; /* Padding vertical quand ouvert */
+}
+
+
+.accordion-content p {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #555;
+}
+
+/* Styles pour les carrousels à l'intérieur des accordéons */
+.event-carousel-container {
+    position: relative;
+    width: 100%;
+    height: 350px; /* Hauteur fixe pour le conteneur du carrousel */
+    overflow: hidden;
+    margin-top: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.event-carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    height: 100%; /* Prend 100% de la hauteur du conteneur */
+}
+
+.event-carousel-item {
+    min-width: 100%;
+    height: 100%; /* Prend 100% de la hauteur de la piste */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.event-carousel-item img {
+    width: 100%;   /* L'image prend 100% de la largeur de son item */
+    height: 100%;  /* L'image prend 100% de la hauteur de son item */
+    object-fit: contain; /* L'image est contenue sans être coupée, gardant ses proportions */
+    display: block;
+}
+
+.event-carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 1.2em;
+    z-index: 10;
+    border-radius: 3px;
+}
+
+.event-carousel-nav.prev {
+    left: 5px;
+}
+
+.event-carousel-nav.next {
+    right: 5px;
+}
+
+.event-carousel-nav:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
